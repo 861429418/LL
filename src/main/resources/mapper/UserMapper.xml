@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ee.gongz.mapper.UserMapper" >
+    <resultMap id="BaseResultMap" type="ee.gongz.beans.User" >
+        <id column="area_id" property="area_id" jdbcType="INTEGER" />
+        <result column="user_name" property="user_name" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="enable" property="enable" jdbcType="TINYINT" />
+        <result column="role_id" property="role_id" jdbcType="INTEGER" />
+        <result column="mail" property="mail" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="login_time" property="login_time" jdbcType="TIMESTAMP"/>
+        <result column="last_login_time" property="last_login_time" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+    <select id="getAll" resultMap="BaseResultMap" >
+    select * from l_user
+</select>
+
+    <select id="getTwo" parameterType="java.lang.String" resultType="ee.gongz.beans.User" resultMap="BaseResultMap" >
+        SELECT *
+        FROM l_user,g_area
+        WHERE area_name=#{area_name} and user_name=#{user_name} and l_user.area_id=g_area.area_id
+    </select>
+    <select id="getOne" parameterType="java.lang.Integer" resultType="ee.gongz.beans.User" resultMap="BaseResultMap">
+        select *
+        from l_user
+        where area_id=#{area_id}
+    </select>
+    <select id="decide" parameterType="java.lang.Integer" resultType="ee.gongz.beans.User" resultMap="BaseResultMap">
+        select area_id
+        from l_user
+        where area_id=#{area_id}
+    </select>
+
+    <insert id="insert" parameterType="ee.gongz.beans.User" useGeneratedKeys="true"
+            keyProperty="area_id">
+       INSERT INTO
+             l_user(area_id,user_name,password,mobile,enable,mail,role_id,remark,login_time,last_login_time)
+        VALUES
+        (#{area_id,jdbcType=INTEGER},#{user_name,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR},#{enable,jdbcType=BOOLEAN},#{mail,jdbcType=VARCHAR},#{role_id,jdbcType=INTEGER},#{remark,jdbcType=VARCHAR},#{login_time,jdbcType=DATE},#{last_login_time,jdbcType=DATE})
+    </insert>
+
+    <update id="update" parameterType="map" useGeneratedKeys="true"
+            keyProperty="area_id">
+        UPDATE
+        l_user
+        set
+        <if test="user_name != null">user_name = #{user_name},</if>
+        mobile = #{mobile},password = #{password},enable=#{enable},mail=#{mail},role_id=#{role_id},remark=#{remark},login_time=#{login_time},last_login_time=#{last_login_time}
+        WHERE
+        area_id=#{area_id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Integer" >
+       DELETE FROM
+             l_user
+       WHERE
+             area_id =#{area_id}
+    </delete>
+</mapper>

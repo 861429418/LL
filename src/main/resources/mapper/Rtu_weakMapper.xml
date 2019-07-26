@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ee.gongz.mapper.Rtu_weakMapper" >
+    <resultMap id="BaseResultMap" type="ee.gongz.beans.Rtu_weak" >
+        <id column="dev_id" property="dev_id" jdbcType="INTEGER" />
+        <result column="area_id" property="area_id" jdbcType="INTEGER" />
+        <result column="box_id" property="box_id" jdbcType="INTEGER" />
+        <result column="sim_card" property="sim_card" jdbcType="INTEGER" />
+        <result column="ip" property="ip" jdbcType="INTEGER" />
+        <result column="port" property="port" jdbcType="INTEGER" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+    <select id="getAll" resultMap="BaseResultMap" >
+    select * from e_rtu_weak
+</select>
+
+    <select id="getTwo" parameterType="java.lang.Integer" resultType="ee.gongz.beans.Rtu_weak" resultMap="BaseResultMap" >
+        SELECT *
+        FROM e_rtu_weak
+        WHERE dev_id=#{dev_id} and area_id=#{area_id}
+    </select>
+    <select id="getOne" parameterType="java.lang.Integer" resultType="ee.gongz.beans.Rtu_weak" resultMap="BaseResultMap">
+        select *
+        from e_rtu_weak
+        where dev_id=#{dev_id}
+    </select>
+    <select id="decide" parameterType="java.lang.Integer" resultType="ee.gongz.beans.Rtu_weak" resultMap="BaseResultMap">
+        select dev_id
+        from e_rtu_weak
+        where dev_id=#{dev_id}
+    </select>
+
+    <insert id="insert" parameterType="ee.gongz.beans.Rtu_weak" useGeneratedKeys="true"
+            keyProperty="dev_id">
+       INSERT INTO
+             e_rtu_weak(dev_id,area_id,box_id,sim_card,ip,port,remark)
+        VALUES
+        (#{dev_id,jdbcType=INTEGER},#{area_id,jdbcType=INTEGER},#{box_id,jdbcType=INTEGER},#{sim_card,jdbcType=INTEGER},#{ip,jdbcType=INTEGER},#{port,jdbcType=INTEGER},#{remark,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="update" parameterType="map" useGeneratedKeys="true"
+            keyProperty="dev_id">
+        UPDATE
+        e_rtu_weak
+        set
+        <if test="area_id!= null">area_id = #{area_id},</if>
+        box_id = #{box_id},sim_card = #{sim_card},ip=#{ip},port=#{port},remark=#{remark}
+        WHERE
+        dev_id=#{dev_id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Integer" >
+       DELETE FROM
+             e_rtu_weak
+       WHERE
+             dev_id =#{dev_id}
+    </delete>
+</mapper>

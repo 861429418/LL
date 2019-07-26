@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ee.gongz.mapper.BoxMapper" >
+    <resultMap id="BaseResultMap" type="ee.gongz.beans.Box" >
+        <id column="box_id " property="box_id " jdbcType="INTEGER" />
+        <id column="area_id" property="area_id" jdbcType="INTEGER" />
+        <result column="gps_type" property="gps_type" jdbcType="VARCHAR" />
+        <result column="namess" property="namess" jdbcType="VARCHAR"/>
+        <result column="longitude" property="longitude" jdbcType="DOUBLE" />
+        <result column="latitude" property="latitude" jdbcType="DOUBLE" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+    <select id="getAll" resultMap="BaseResultMap" >
+    select * from d_box
+</select>
+
+    <select id="getTwo" parameterType="java.lang.Integer" resultType="ee.gongz.beans.Box" resultMap="BaseResultMap" >
+        SELECT *
+        FROM d_box
+        WHERE box_id=#{box_id} and area_id=#{area_id}
+    </select>
+    <select id="getOne" parameterType="java.lang.Integer" resultType="ee.gongz.beans.Box" resultMap="BaseResultMap">
+        select *
+        from d_box
+        where box_id=#{box_id}
+    </select>
+    <select id="decide" parameterType="java.lang.Integer" resultType="ee.gongz.beans.Box" resultMap="BaseResultMap">
+        select box_id
+        from d_box
+        where box_id=#{box_id}
+    </select>
+    <insert id="insert" parameterType="ee.gongz.beans.Box" useGeneratedKeys="true"
+            keyProperty="box_id ">
+       INSERT INTO
+             d_box(box_id,area_id,gps_type,name,longitude,latitude,remark)
+        VALUES
+        (#{box_id,jdbcType=INTEGER},#{area_id,jdbcType=INTEGER},#{gps_type,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},#{longitude,jdbcType=DOUBLE},#{latitude,jdbcType=DOUBLE},#{remark,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="update" parameterType="map" useGeneratedKeys="true"
+            keyProperty="box_id">
+        UPDATE
+        d_box
+        set
+        <if test="area_id !=null">area_id=#{area_id},</if>
+
+        gps_type = #{gps_type},name = #{name},longitude=#{longitude},latitude=#{latitude},remark=#{remark},remark=#{remark}
+        WHERE
+        box_id=#{box_id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Integer" >
+       DELETE FROM
+             d_box
+       WHERE
+             box_id =#{box_id}
+    </delete>
+</mapper>

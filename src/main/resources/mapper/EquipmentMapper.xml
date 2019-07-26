@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ee.gongz.mapper.EquipmentMapper" >
+    <resultMap id="BaseResultMap" type="ee.gongz.beans.Equipment" >
+        <id column="dev_id" property="dev_id" jdbcType="INTEGER" />
+        <result column="area_id" property="area_id" jdbcType="INTEGER" />
+        <result column="box_id" property="box_id" jdbcType="INTEGER" />
+        <result column="phy_id" property="phy_id" jdbcType="INTEGER" />
+        <result column="type" property="type" jdbcType="TINYINT" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="model" property="model" jdbcType="VARCHAR" />
+        <result column="manufacturers" property="manufacturers" jdbcType="VARCHAR"/>
+        <result column="location" property="location" jdbcType="VARCHAR"/>
+        <result column="installation_time" property="installation_time" jdbcType="TIMESTAMP"/>
+        <result column="longitude" property="longitude" jdbcType="DOUBLE" />
+        <result column="latitude" property="latitude" jdbcType="DOUBLE" />
+        <result column="location_description" property="location_description" jdbcType="VARCHAR" />
+        <result column="gis_type" property="gis_type" jdbcType="TINYINT" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+    <select id="getAll" resultMap="BaseResultMap" >
+    select * from e_equipment
+</select>
+
+    <select id="getTwo" parameterType="java.lang.Integer" resultType="ee.gongz.beans.Equipment" resultMap="BaseResultMap" >
+        SELECT *
+        FROM e_equipment
+        WHERE dev_id=#{dev_id} and area_id=#{area_id}
+    </select>
+    <select id="getOne" parameterType="java.lang.Integer" resultType="ee.gongz.beans.Equipment" resultMap="BaseResultMap">
+        select *
+        from e_equipment
+        where dev_id=#{dev_id}
+    </select>
+    <select id="decide" parameterType="java.lang.Integer" resultType="ee.gongz.beans.Equipment" resultMap="BaseResultMap">
+        select dev_id
+        from e_equipment
+        where dev_id=#{dev_id}
+    </select>
+
+    <insert id="insert" parameterType="ee.gongz.beans.Equipment" useGeneratedKeys="true"
+            keyProperty="dev_id">
+       INSERT INTO
+             e_equipment(dev_id,area_id,box_id,phy_id,type,name,model,manufacturers,location,installation_time,longitude,latitude,location_description,gis_type,remark)
+        VALUES
+        (#{dev_id,jdbcType=INTEGER},#{area_id,jdbcType=INTEGER},#{box_id,jdbcType=INTEGER},#{phy_id,jdbcType=INTEGER},#{type,jdbcType=BOOLEAN},#{name,jdbcType=VARCHAR},#{model,jdbcType=VARCHAR},#{manufacturers,jdbcType=VARCHAR},#{location,jdbcType=VARCHAR},#{installation_time,jdbcType=DATE}, #{longitude,jdbcType=DOUBLE},#{latitude,jdbcType=DOUBLE},#{location_description,jdbcType=VARCHAR},#{gis_type,jdbcType=BOOLEAN},#{remark,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="update" parameterType="map" useGeneratedKeys="true"
+            keyProperty="dev_id">
+        UPDATE
+        e_equipment
+        set
+        <if test="area_id!= null">area_id = #{area_id},</if>
+        box_id = #{box_id},phy_id = #{phy_id},type=#{type},name=#{name},model=#{model},manufacturers=#{manufacturers},location=#{location},installation_time=#{installation_time},longitude=#{longitude},latitude=#{latitude},location_description=#{location_description},gis_type=#{gis_type},remark=#{remark}
+        WHERE
+        dev_id=#{dev_id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Integer" >
+       DELETE FROM
+             e_equipment
+       WHERE
+             dev_id =#{dev_id}
+    </delete>
+</mapper>
